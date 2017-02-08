@@ -50,9 +50,9 @@ int     main(int argc, char **argv)
         }
         iargs[i] = '\0';
     }
-    while(get_next_line(0, &str))
-    {
+    // while(get_next_line(0, &str))
+    // {
         
-    }
+    // }
     free(iargs);
 }
