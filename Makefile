@@ -2,11 +2,13 @@ CHECK = checker
 
 PUSH = push_swap
 
-GCC_FLAGS = gcc -c -Wall -Werror -Wextra
+GCC_FLAGS = gcc -Wall -Werror -Wextra
 
 SRC = checker.c
 
-HEADER_DIR = -I ./checker.h -I ./libft/libft.a
+LIBFT = -L ./libft/ -lft
+
+HEADERS = -I ./checker.h -I ./libft/
 
 O_FILES = $(SRC:.c=.o)
 
@@ -14,7 +16,7 @@ all: $(CHECK)
 
 $(CHECK):
 	cd libft && make all
-	$(GCC_FLAGS) $(SRC) $(HEADER_DIR) -o $(CHECK)
+	$(GCC_FLAGS) $(SRC) $(HEADERS) $(LIBFT) -o $(CHECK)
 	cd libft && make fclean
 
 clean:
