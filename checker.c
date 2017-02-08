@@ -1,18 +1,18 @@
-#include <checker.h>
+#include "checker.h"
 
-int     ft_atoi(char *str)
-{
-    int value;
-    int negative;
+// int     ft_atoi(char *str)
+// {
+//     int value;
+//     int negative;
 
-    value = 0;
-    negative = (*str == '-') ? -1 : 1;
-    if (*str == '-')
-        str++;
-    while (*str != 0)
-        value = value * 10 + (*str++ - '0');
-    return (value * negative);
-}
+//     value = 0;
+//     negative = (*str == '-') ? -1 : 1;
+//     if (*str == '-')
+//         str++;
+//     while (*str != 0)
+//         value = value * 10 + (*str++ - '0');
+//     return (value * negative);
+// }
 
 int     valid_int(char *str)
 {
@@ -31,7 +31,7 @@ int     main(int argc, char **argv)
 {
     int     i;
     int     *iargs;
-    char    *str;
+    //char    *str;
 
     i = 0;
     if (argc < 2)
@@ -54,5 +54,5 @@ int     main(int argc, char **argv)
     // {
         
     // }
-    free(iargs);
+    //free(iargs);
 }

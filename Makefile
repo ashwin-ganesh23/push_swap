@@ -6,14 +6,14 @@ GCC_FLAGS = gcc -c -Wall -Werror -Wextra
 
 SRC = checker.c
 
-HEADER_DIR = -I ./checker.h ./libft/libft.a
+HEADER_DIR = -I ./checker.h -I ./libft/libft.a
 
 O_FILES = $(SRC:.c=.o)
 
 all: $(CHECK)
 
 $(CHECK):
-	cd libft && $(MAKE)
+	cd libft && make all
 	$(GCC_FLAGS) $(SRC) $(HEADER_DIR) -o $(CHECK)
 	cd libft && make fclean
 
