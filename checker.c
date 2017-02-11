@@ -1,4 +1,74 @@
-#include "checker.h"
+#include "checker.h" 
+
+void 	(*g_funcs[11])(t_stack *stk) =
+{
+	&sa,
+	&sb,
+	&sr,
+	&pa,
+	&pb,
+	&ra,
+	&rb,
+	&rr,
+	&rra,
+	&rrb,
+	&rrc,
+};
+
+void		sa(t_stack *stk)
+{
+
+}
+
+void		sb(t_stack *stk)
+{
+	
+}
+
+void		sr(t_stack *stk)
+{
+	
+}
+
+void		pa(t_stack *stk)
+{
+	
+}
+
+void		pb(t_stack *stk)
+{
+	
+}
+
+void		ra(t_stack *stk)
+{
+	
+}
+
+void		rb(t_stack *stk)
+{
+	
+}
+
+void		rr(t_stack *stk)
+{
+	
+}
+
+void		rra(t_stack *stk)
+{
+	
+}
+
+void		rrb(t_stack *stk)
+{
+	
+}
+
+void		rrr(t_stack *stk)
+{
+	
+}
 
 intmax_t	ft_max_atoi(char *str)
 {
@@ -48,18 +118,18 @@ int 	check_duplicates(t_stack *root, int n)
 	return (1);
 }
 
-int 	check_instructions(char *str)
+void 	check_instructions(char *str)
 {
+	int i;
+
+	i = 0;
 	if (ft_strlen(str) > 3 || ft_strlen(str) < 2)
-		return (1);
-	if (ft_strncmp(str, "sa", 2) || ft_strncmp(str, "ss", 2) || 
-		ft_strncmp(str, "sb", 2) || ft_strncmp(str, "rb", 2) || 
-		ft_strncmp(str, "ra", 2) || ft_strncmp(str, "rr", 2) || 
-		ft_strncmp(str, "pa", 2) || ft_strncmp(str, "pb", 2) || 
-		ft_strncmp(str, "rra", 3) || ft_strncmp(str, "rrb", 3) ||
-		 ft_strncmp(str, "rrr", 3))
-		return (0);
-	return (1);
+		put_error();
+	while (i < 11 && ft_strncmp(str, root->instructions[i], 3) != 0)
+		i++;
+	if (i == 11)
+		put_error();
+	(*g_funcs[i])(root);
 }
 
 void    parse_args(t_stack *root, int argc, char **argv)
@@ -67,8 +137,6 @@ void    parse_args(t_stack *root, int argc, char **argv)
 	int 	i;
 
 	i = 0;
-	root->a = (int *)malloc(sizeof(int) * argc);
-	root->asize = argc - 1;
 	while (argc > 1)
 	{
 		if (!valid_int(argv[--argc]))
@@ -80,9 +148,23 @@ void    parse_args(t_stack *root, int argc, char **argv)
 	root->a[i] = '\0';
 }
 
-void	apply_instruction(t_stack *root, char *str)
+int 	initialize_stk(t_stack *root, int argc)
 {
-	
+	if ((root->a = (int *)malloc(sizeof(int) * argc)) == NULL)
+		return (0);
+	root->asize = argc - 1;
+	root->instructions[0] = "sa\0";
+	root->instructions[1] = "sb\0";
+	root->instructions[2] = "ss\0";
+	root->instructions[3] = "pa\0";
+	root->instructions[4] = "pb\0";
+	root->instructions[5] = "ra\0";
+	root->instructions[6] = "rb\0";
+	root->instructions[7] = "rr\0";
+	root->instructions[8] = "rra";
+	root->instructions[9] = "rrb";
+	root->instructions[10] = "rrr";
+	return (1);
 }
 
 int     main(int argc, char **argv)
@@ -94,15 +176,15 @@ int     main(int argc, char **argv)
 	fd = 0;
 	if (argc < 2)
 		exit (0);
+	if (!initialize_stk(&root, argc))
+		return (0);
 	parse_args(&root, argc, argv);
 	while (get_next_line(fd, &str) == 1)
 	{
-		if (check_instructions(str))
-			put_error();
 		apply_instruction(&root, str);
 		printf("%s\n", str);
 	}
-	//free(iargs);
+	// check_solution();
     return (0);
 }
 
