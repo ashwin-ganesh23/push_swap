@@ -50,9 +50,14 @@ int 	check_duplicates(t_stack *root, int n)
 
 int 	check_instructions(char *str)
 {
-	if (ft_strlen(str) > 3)
-		return (0);
-	if (!(ft_strncmp(str, "sa", 2) || ft_strncmp(str, "ss", 2)))
+	if (ft_strlen(str) > 3 || ft_strlen(str) < 2)
+		return (1);
+	if (ft_strncmp(str, "sa", 2) || ft_strncmp(str, "ss", 2) || 
+		ft_strncmp(str, "sb", 2) || ft_strncmp(str, "rb", 2) || 
+		ft_strncmp(str, "ra", 2) || ft_strncmp(str, "rr", 2) || 
+		ft_strncmp(str, "pa", 2) || ft_strncmp(str, "pb", 2) || 
+		ft_strncmp(str, "rra", 3) || ft_strncmp(str, "rrb", 3) ||
+		 ft_strncmp(str, "rrr", 3))
 		return (0);
 	return (1);
 }
@@ -75,6 +80,11 @@ void    parse_args(t_stack *root, int argc, char **argv)
 	root->a[i] = '\0';
 }
 
+void	apply_instruction(t_stack *root, char *str)
+{
+	
+}
+
 int     main(int argc, char **argv)
 {
 	t_stack root;
@@ -85,13 +95,12 @@ int     main(int argc, char **argv)
 	if (argc < 2)
 		exit (0);
 	parse_args(&root, argc, argv);
-	printf("sa\n");
-	printf("sb\n");
 	while (get_next_line(fd, &str) == 1)
 	{
-		printf("hello");
-		if (!check_instructions(str))
+		if (check_instructions(str))
 			put_error();
+		apply_instruction(&root, str);
+		printf("%s\n", str);
 	}
 	//free(iargs);
     return (0);
