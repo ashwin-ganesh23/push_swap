@@ -1,10 +1,10 @@
-#include "checker.h" 
+#include "checker.h"
 
 void 	(*g_funcs[11])(t_stack *stk) =
 {
 	&sa,
 	&sb,
-	&sr,
+	&ss,
 	&pa,
 	&pb,
 	&ra,
@@ -17,57 +17,128 @@ void 	(*g_funcs[11])(t_stack *stk) =
 
 void		sa(t_stack *stk)
 {
+	int 	tmp;
 
+	if (stk->asize > 1)
+	{
+		tmp = stk->a[stk->asize];
+		stk->a[stk->asize] = stk->a[stk->asize - 1];
+		stk->a[stk->asize - 1] = tmp;
+	}
 }
 
 void		sb(t_stack *stk)
 {
-	
+	int 	tmp;
+
+	if (stk->bsize > 1)
+	{
+		tmp = stk->b[stk->bsize];
+		stk->b[stk->bsize] = stk->b[stk->bsize - 1];
+		stk->b[stk->bsize - 1] = tmp;
+	}
 }
 
-void		sr(t_stack *stk)
+void		ss(t_stack *stk)
 {
-	
+	sa(stk);
+	sb(stk);
 }
 
 void		pa(t_stack *stk)
 {
-	
+	int 	tmp;
+
+	if (stk->bsize > 0)
+	{
+		tmp = stk->b[bsize];
+		stk->b[bsize--] = 0;
+		stk->a[asize++] = tmp;
+	}
 }
 
 void		pb(t_stack *stk)
 {
-	
+	int 	tmp;
+
+	if (stk->asize > 0)
+	{
+		tmp = stk->a[asize];
+		stk->a[asize--] = 0;
+		stk->b[bsize++] = tmp;
+	}
 }
 
 void		ra(t_stack *stk)
 {
-	
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->asize > 1)
+	{
+		tsize = asize;
+		tmp = stk->a[asize];
+		while (tsize > 1)
+			stk->a[tsize--] = stk->a[tsize - 1];
+		stk->a[0] = tmp;
+	}
 }
 
 void		rb(t_stack *stk)
 {
-	
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->bsize > 1)
+	{
+		tsize = bsize;
+		tmp = stk->b[bsize];
+		while (tsize > 1)
+			stk->b[tsize--] = stk->b[tsize - 1];
+		stk->b[0] = tmp;
+	}
 }
 
 void		rr(t_stack *stk)
 {
-	
+	ra(stk);
+	rb(stk);
 }
 
 void		rra(t_stack *stk)
 {
-	
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->asize > 1)
+	{
+		tsize = 0;
+		tmp = stk->a[0];
+		while (tsize < asize)
+			stk->a[tsize++] = stk->a[tsize + 1];
+		stk->a[asize] = tmp;
+	}
 }
 
 void		rrb(t_stack *stk)
 {
-	
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->bsize > 1)
+	{
+		tsize = 0;
+		tmp = stk->b[0];
+		while (tsize < bsize)
+			stk->b[tsize++] = stk->b[tsize + 1];
+		stk->b[bsize] = tmp;
+	}
 }
 
 void		rrr(t_stack *stk)
 {
-	
+	rra(stk);
+	rrb(stk);
 }
 
 intmax_t	ft_max_atoi(char *str)
@@ -118,7 +189,7 @@ int 	check_duplicates(t_stack *root, int n)
 	return (1);
 }
 
-void 	check_instructions(char *str)
+void 	check_instruction(t_stack *root, char *str)
 {
 	int i;
 
@@ -152,6 +223,8 @@ int 	initialize_stk(t_stack *root, int argc)
 {
 	if ((root->a = (int *)malloc(sizeof(int) * argc)) == NULL)
 		return (0);
+	if ((root->b = (int *)malloc(sizeof(int) * argc)) == NULL)
+		return (0);
 	root->asize = argc - 1;
 	root->instructions[0] = "sa\0";
 	root->instructions[1] = "sb\0";
@@ -181,7 +254,7 @@ int     main(int argc, char **argv)
 	parse_args(&root, argc, argv);
 	while (get_next_line(fd, &str) == 1)
 	{
-		apply_instruction(&root, str);
+		check_instruction(&root, str);
 		printf("%s\n", str);
 	}
 	// check_solution();

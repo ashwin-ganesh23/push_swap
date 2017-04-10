@@ -8,7 +8,7 @@ SRC = checker.c
 
 LIBFT = -L ./libft/ -lft
 
-HEADERS = -I ./checker.h -I ./libft/
+HEADERS = -I ./checker.h -I ./libft/libft.h
 
 O_FILES = $(SRC:.c=.o)
 
