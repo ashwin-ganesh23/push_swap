@@ -6,9 +6,9 @@ GCC_FLAGS = gcc -Wall -Werror -Wextra
 
 SRC = checker.c
 
-LIBFT = -L ./libft/ -lft
+LIBFT = -L libft/ -lft
 
-HEADERS = -I ./checker.h -I ./libft/libft.h
+HEADERS = -I ./checker.h -I ./libft
 
 O_FILES = $(SRC:.c=.o)
 

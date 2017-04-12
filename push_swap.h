@@ -9,17 +9,15 @@
 # include <stdio.h>
 # include <libft.h>
 # include <get_next_line.h>
+# include "checker.h"
 
-typedef struct  s_stack
+typedef	struct	s_ledger
 {
-	int     *a;
-	int     *b;
-	size_t  asize;
-	size_t  bsize;
-	char	**instructions;
-}				t_stack;
-
-extern void		(*g_funcs[11]) (t_stack *stk);
-
+	int 	*a;
+	int 	*b;
+	int 	*ascores;
+	size_t 	asize;
+	size_t	bsize;
+}				t_ledger;
 
 #endif
