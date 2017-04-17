@@ -11,13 +11,27 @@
 # include <get_next_line.h>
 # include "checker.h"
 
+typedef struct	s_node
+{
+	int 			data;
+	struct s_node	*next;
+	struct s_node	*prev;
+	int				pos;
+}				t_node;
+
+typedef struct	s_list
+{
+	struct s_node 	*head;
+	struct s_node	*tail;
+}				t_list;
+
 typedef	struct	s_ledger
 {
-	int 	*a;
-	int 	*b;
-	int 	*ascores;
-	size_t 	asize;
-	size_t	bsize;
+	struct s_list	*a;
+	struct s_list	*b;
+	size_t 			asize;
+	size_t			bsize;
+	char 			**instructions;
 }				t_ledger;
 
 #endif

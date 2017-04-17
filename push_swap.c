@@ -42,57 +42,89 @@ void 	calculate_scores(t_stack *ledger)
 	}
 }
 
-t_node	*split(t_node *head)
+t_node	*new_nodelst()
 {
-    t_node	*fast;
-	t_node	*slow;
-	t_node	*temp;
+	t_node 	*node;
 
-	fast = head;
-	slow = head;
-    while (fast->next && fast->next->next)
-    {
-        fast = fast->next->next;
-        slow = slow->next;
-    }
-    temp = slow->next;
-    slow->next = NULL;
-    return (temp);
+	if ((node = (t_node *)malloc(sizeof(*node))) == NULL)
+		return (0);
+	node->next = NULL;
+	node->prev = NULL;
+	return (node);
 }
 
-t_node	*merge(t_node *first, t_node *second)
+int		insert_node(t_node *node, t_list *master)
 {
-    if (!first)
-        return second;
-    if (!second)
-        return first;
-    if (ft_strcmp(first->sd->d_name, second->sd->d_name) < 0)
-    {
-        first->next = merge(first->next,second);
-        first->next->prev = first;
-        first->prev = NULL;
-        return first;
-    }
-    else
-    {
-        second->next = merge(first,second->next);
-        second->next->prev = second;
-        second->prev = NULL;
-        return second;
-    }
+	t_node *temp;
+
+	if ((temp = (t_node *)malloc(sizeof(t_node))) == NULL)
+		return (0);
+	temp->next = NULL;
+	temp->prev = NULL;
+	if (!node)
+		node = temp;
+	else
+	{
+		temp->next = node;
+		node->prev = temp;
+		master->head = temp;
+	}
+	temp->next = node;
+	node = temp;
+	return (1);
 }
 
-t_node	*merge_sort(t_node *head)
-{
-	t_node	*second;
-
-	if (!head || !head->next)
-        return (head);
-    second = split(head);
-    head = merge_sort(head);
-    second = merge_sort(second);
-    return (merge(head,second));
-}
+// t_node	*split(t_node *head)
+// {
+//     t_node	*fast;
+// 	t_node	*slow;
+// 	t_node	*temp;
+//
+// 	fast = head;
+// 	slow = head;
+//     while (fast->next && fast->next->next)
+//     {
+//         fast = fast->next->next;
+//         slow = slow->next;
+//     }
+//     temp = slow->next;
+//     slow->next = NULL;
+//     return (temp);
+// }
+//
+// t_node	*merge(t_node *first, t_node *second)
+// {
+//     if (!first)
+//         return second;
+//     if (!second)
+//         return first;
+//     if (ft_strcmp(first->sd->d_name, second->sd->d_name) < 0)
+//     {
+//         first->next = merge(first->next,second);
+//         first->next->prev = first;
+//         first->prev = NULL;
+//         return first;
+//     }
+//     else
+//     {
+//         second->next = merge(first,second->next);
+//         second->next->prev = second;
+//         second->prev = NULL;
+//         return second;
+//     }
+// }
+//
+// t_node	*merge_sort(t_node *head)
+// {
+// 	t_node	*second;
+//
+// 	if (!head || !head->next)
+//         return (head);
+//     second = split(head);
+//     head = merge_sort(head);
+//     second = merge_sort(second);
+//     return (merge(head,second));
+// }
 
 void 	set_place(t_stack *ledger)
 {
@@ -100,7 +132,7 @@ void 	set_place(t_stack *ledger)
 	int 	i;
 
 	i = 0;
-	//sort
+
 	while (i < ledger->asize)
 	{
 		//store true positions
@@ -113,12 +145,8 @@ int 	initialize_ledger(t_stack *ledger, int argc)
 	int 	i;
 
 	i = 0;
-	if ((root->a = (int *)malloc(sizeof(int) * argc)) == NULL)
-		return (0);
-	if ((root->b = (int *)malloc(sizeof(int) * argc)) == NULL)
-		return (0);
-	if ((root->ascores = (int *)malloc(sizeof(int) * argc)) == NULL)
-		return (0);
+	root->a = NULL;
+	root->b = NULL;
 	if ((root->instructions = (char**)malloc(sizeof(char*) * 11)) == NULL)
 		return (0);
 	while (i < 11)
