@@ -29,19 +29,6 @@ void    parse_pargs(t_ledger *root, int argc, char **argv)
 	root->a[i] = '\0';
 }
 
-void 	calculate_scores(t_stack *ledger)
-{
-	size_t 	size;
-	int 	min;
-
-	size = ledger->asize;
-	min = 0;
-	while (size > 0)
-	{
-		ledger->ascores[--size] =
-	}
-}
-
 t_node	*new_nodelst()
 {
 	t_node 	*node;
@@ -74,70 +61,89 @@ int		insert_node(t_node *node, t_list *master)
 	return (1);
 }
 
-// t_node	*split(t_node *head)
-// {
-//     t_node	*fast;
-// 	t_node	*slow;
-// 	t_node	*temp;
-//
-// 	fast = head;
-// 	slow = head;
-//     while (fast->next && fast->next->next)
-//     {
-//         fast = fast->next->next;
-//         slow = slow->next;
-//     }
-//     temp = slow->next;
-//     slow->next = NULL;
-//     return (temp);
-// }
-//
-// t_node	*merge(t_node *first, t_node *second)
-// {
-//     if (!first)
-//         return second;
-//     if (!second)
-//         return first;
-//     if (ft_strcmp(first->sd->d_name, second->sd->d_name) < 0)
-//     {
-//         first->next = merge(first->next,second);
-//         first->next->prev = first;
-//         first->prev = NULL;
-//         return first;
-//     }
-//     else
-//     {
-//         second->next = merge(first,second->next);
-//         second->next->prev = second;
-//         second->prev = NULL;
-//         return second;
-//     }
-// }
-//
-// t_node	*merge_sort(t_node *head)
-// {
-// 	t_node	*second;
-//
-// 	if (!head || !head->next)
-//         return (head);
-//     second = split(head);
-//     head = merge_sort(head);
-//     second = merge_sort(second);
-//     return (merge(head,second));
-// }
+t_node	*split(t_node *head)
+{
+    t_node	*fast;
+	t_node	*slow;
+	t_node	*temp;
+
+	fast = head;
+	slow = head;
+    while (fast->next && fast->next->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    temp = slow->next;
+    slow->next = NULL;
+    return (temp);
+}
+
+t_node	*merge(t_node *first, t_node *second)
+{
+    if (!first)
+        return second;
+    if (!second)
+        return first;
+    if (first->data < second->data)
+    {
+        first->next = merge(first->next,second);
+        first->next->prev = first;
+        first->prev = NULL;
+        return first;
+    }
+    else
+    {
+        second->next = merge(first,second->next);
+        second->next->prev = second;
+        second->prev = NULL;
+        return second;
+    }
+}
+
+t_node	*merge_sort(t_node *head)
+{
+	t_node	*second;
+
+	if (!head || !head->next)
+        return (head);
+    second = split(head);
+    head = merge_sort(head);
+    second = merge_sort(second);
+    return (merge(head,second));
+}
+
+void 	calculate_scores(t_stack *ledger)
+{
+	size_t 	size;
+	int 	min;
+
+	size = ledger->asize;
+	min = 0;
+	while (size > 0)
+	{
+		ledger->a[--size] =
+	}
+}
 
 void 	set_place(t_stack *ledger)
 {
-	int 	real[ledger->asize];
 	int 	i;
+	t_node	*temp;
+	t_node	*tmp;
+	t_node 	*t;
 
 	i = 0;
-
+	tmp = ledger->a->head;
+	temp = merge_sort(tmp);
 	while (i < ledger->asize)
 	{
-		//store true positions
+		t = temp;
+		while (tmp->data != temp->data)
+			temp = temp->next;
+		tmp->pos = i++;
+		tmp = tmp->next;
 	}
-	real[]
 }
 
 int 	initialize_ledger(t_stack *ledger, int argc)
