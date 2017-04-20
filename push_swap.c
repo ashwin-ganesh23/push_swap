@@ -113,7 +113,12 @@ t_node	*merge_sort(t_node *head)
     return (merge(head,second));
 }
 
-void 	calculate_scores(t_stack *ledger)
+int 	make_decision(t_stack *ledger)
+{
+	
+}
+
+int 	calculate_scores(t_stack *ledger)
 {
 	size_t 	size;
 	int 	min;
@@ -122,6 +127,12 @@ void 	calculate_scores(t_stack *ledger)
 	min = 0;
 	while (size > 0)
 	{
+		if (bsize <= 2)
+			return (0);
+		else
+		{
+			while ()
+		}
 		ledger->a[--size] =
 	}
 }
