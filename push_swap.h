@@ -17,6 +17,7 @@ typedef struct	s_node
 	struct s_node	*next;
 	struct s_node	*prev;
 	int				pos;
+	int 			score;
 }				t_node;
 
 typedef struct	s_list

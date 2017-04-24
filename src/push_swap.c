@@ -113,32 +113,70 @@ t_node	*merge_sort(t_node *head)
     return (merge(head,second));
 }
 
-int 	make_decision(t_stack *ledger)
+int 	pick_score(t_stack *ledger)
 {
+	int 	i;
+	int		min;
+	int		imin;
+	t_node 	tmp;
 
+	i = 0;
+	imin = 0;
+	min = 10000;
+	tmp = ledger->a->head;
+	while (i < ledger->asize)
+	{
+		if (tmp->score < min)
+		{
+			min = tmp->score;
+			imin = i;
+		}
+		i++;
+	}
+	return (imin);
 }
 
-int 	calculate_scores(t_stack *ledger)
+void	calculate_scores(t_stack *ledger)
 {
-	t_node 	temp;
-	t_node	tmp;
+	t_node 	*temp;
+	t_node	*tmp;
 	int 	min;
+	int 	i;
 
 	min = 0;
+	i = 0;
 	temp = ledger->a->head;
 	tmp = ledger->b->head;
-	while (temp->next != NULL)
+	while (temp != NULL)
 	{
 		if (bsize <= 2)
 			return (0);
 		else
 		{
-			while (tmp->next != NULL && temp->pos < tmp->pos)
+			min = 0;
+			if (temp->pos < tmp->pos)
 			{
-
+				while (temp->pos < tmp->pos)
+				{
+					tmp = tmp->next;
+					min++;
+				}
 			}
+			else if (temp->pos > tmp->pos)
+			{
+				while (temp->pos > tmp->pos)
+				{
+					tmp = tmp->next;
+					min++;
+				}
+			}
+			i = (i > (ledger->asize / 2)) ? i: ledger->asize - i;
+			min = (min > (ledger->bsize / 2) ? i : ledger->asize - i);
+			temp->score = min + i;
 		}
-		ledger->a[--size] =
+		if (temp->next != NULL)
+			temp = temp->next;
+		i++;
 	}
 }
 
@@ -192,6 +230,25 @@ int 	initialize_ledger(t_stack *ledger, int argc)
 	return (1);
 }
 
+void 	solver(t_ledger *root)
+{
+	int 	solved;
+	int 	index;
+
+	solved = 0;
+	if (root->asize < 5)
+		small_solver();
+	else
+	{
+		while (!solved)
+		{
+			calculate_scores(root);
+			index = pick_score(root);
+			put_moves();
+		}
+	}
+}
+
 int		main(int argc, char **argv)
 {
 	t_ledger root;
@@ -208,5 +265,5 @@ int		main(int argc, char **argv)
 		print("%i\n", root.a->pos);
 		root.a = root.a->next;
 	}
-	//calculate_scores(&root);
+	solver(&root);
 }
