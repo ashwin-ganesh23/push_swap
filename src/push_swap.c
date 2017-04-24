@@ -120,18 +120,23 @@ int 	make_decision(t_stack *ledger)
 
 int 	calculate_scores(t_stack *ledger)
 {
-	size_t 	size;
+	t_node 	temp;
+	t_node	tmp;
 	int 	min;
 
-	size = ledger->asize;
 	min = 0;
-	while (size > 0)
+	temp = ledger->a->head;
+	tmp = ledger->b->head;
+	while (temp->next != NULL)
 	{
 		if (bsize <= 2)
 			return (0);
 		else
 		{
-			while ()
+			while (tmp->next != NULL && temp->pos < tmp->pos)
+			{
+
+			}
 		}
 		ledger->a[--size] =
 	}
