@@ -341,16 +341,14 @@ int 	pick_score(t_stack *ledger)
 	return (imin);
 }
 
-int		calculate_score(t_stack *ledger)
+int		calculate_score(t_stack *ledger, int i)
 {
 	t_node 	*stacka;
 	t_node	*stackb;
 	t_node	*tailb;
 	int 	min;
-	int 	i;
 
 	min = 0;
-	i = 0;
 	stacka = ledger->a->head;
 	stackb = ledger->b->head;
 	tailb = ledger->b->tail;
@@ -383,6 +381,16 @@ int		calculate_score(t_stack *ledger)
 
 }
 
+void 	small_solver()
+{
+
+}
+
+void 	big_solver()
+{
+
+}
+
 void 	solver(t_ledger *root)
 {
 	int 	solved;
@@ -390,11 +398,17 @@ void 	solver(t_ledger *root)
 
 	solved = 0;
 	if (root->asize < 5)
-		small_solver();
+		small_solver(root);
 	else
 	{
+		big_solver(root);
+		if (root->bsize < 2)
+		{
+
+		}
 		while (!solved)
 		{
+
 			calculate_score(root);
 			index = pick_score(root);
 		}
