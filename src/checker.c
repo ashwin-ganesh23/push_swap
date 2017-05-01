@@ -155,7 +155,7 @@ void 	(*g_funcs[11])(t_stack *stk) =
 	&rrr,
 };
 
-intmax_t	ft_max_atoi(char *str)
+ssize_t		ft_max_atoi(char *str)
 {
     size_t	value;
     int 	negative;
@@ -166,7 +166,7 @@ intmax_t	ft_max_atoi(char *str)
         str++;
     while (*str != 0)
         value = value * 10 + (*str++ - '0');
-    return ((size_t)value * negative);
+    return (value * negative);
 }
 
 int     valid_int(char *str)
@@ -311,10 +311,10 @@ int     main(int argc, char **argv)
 {
 	t_stack root;
 	//char    *str;
-	int 	fd;
+	//int 	fd;
 	int i;
 
-	fd = 0;
+	//fd = 0;
 	if (argc < 2)
 		exit (0);
 	if (!initialize_stk(&root, argc))

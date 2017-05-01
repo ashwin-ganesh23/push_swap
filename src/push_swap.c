@@ -1,5 +1,160 @@
 #include "push_swap.h"
 
+void		sa(t_ledger *stk)
+{
+	int 	tmp;
+
+	if (stk->asize > 1)
+	{
+		tmp = stk->a[stk->asize - 1];
+		stk->a[stk->asize - 1] = stk->a[stk->asize - 2];
+		stk->a[stk->asize - 2] = tmp;
+	}
+}
+
+void		sb(t_ledger *stk)
+{
+	int 	tmp;
+
+	if (stk->bsize > 1)
+	{
+		tmp = stk->b[stk->bsize - 1];
+		stk->b[stk->bsize - 1] = stk->b[stk->bsize - 2];
+		stk->b[stk->bsize - 2] = tmp;
+	}
+}
+
+void		ss(t_ledger *stk)
+{
+	sa(stk);
+	sb(stk);
+}
+
+void		pa(t_ledger *stk)
+{
+	int 	tmp;
+
+	if (stk->bsize > 0)
+	{
+		stk->bsize--;
+		tmp = stk->b[stk->bsize];
+		stk->b[stk->bsize] = 0;
+		stk->a[stk->asize++] = tmp;
+	}
+}
+
+void		pb(t_ledger *stk)
+{
+	int 	tmp;
+
+	if (stk->asize > 0)
+	{
+		stk->asize--;
+		tmp = stk->a[stk->asize];
+		stk->a[stk->asize] = 0;
+		stk->b[stk->bsize++] = tmp;
+	}
+}
+
+void		ra(t_ledger *stk)
+{
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->asize > 1)
+	{
+		tsize = stk->asize;
+		tmp = stk->a[stk->asize];
+		while (tsize > 1)
+		{
+			stk->a[tsize] = stk->a[tsize - 1];
+			tsize--;
+		}
+		stk->a[0] = tmp;
+	}
+}
+
+void		rb(t_ledger *stk)
+{
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->bsize > 1)
+	{
+		tsize = stk->bsize;
+		tmp = stk->b[stk->bsize];
+		while (tsize > 1)
+		{
+			stk->b[tsize] = stk->b[tsize - 1];
+			tsize--;
+		}
+		stk->b[0] = tmp;
+	}
+}
+
+void		rr(t_ledger *stk)
+{
+	ra(stk);
+	rb(stk);
+}
+
+void		rra(t_ledger *stk)
+{
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->asize > 1)
+	{
+		tsize = 0;
+		tmp = stk->a[0];
+		while (tsize < stk->asize)
+		{
+			stk->a[tsize] = stk->a[tsize + 1];
+			tsize++;
+		}
+		stk->a[stk->asize] = tmp;
+	}
+}
+
+void		rrb(t_ledger *stk)
+{
+	size_t 	tsize;
+	int 	tmp;
+
+	if (stk->bsize > 1)
+	{
+		tsize = 0;
+		tmp = stk->b[0];
+		while (tsize < stk->bsize)
+		{
+			stk->b[tsize] = stk->b[tsize + 1];
+			tsize++;
+		}
+		stk->b[stk->bsize] = tmp;
+	}
+}
+
+void		rrr(t_ledger *stk)
+{
+	rra(stk);
+	rrb(stk);
+}
+
+void 	(*g_funcs[11])(t_ledger *stk) =
+{
+	&sa,
+	&sb,
+	&ss,
+	&pa,
+	&pb,
+	&ra,
+	&rb,
+	&rr,
+	&rra,
+	&rrb,
+	&rrr,
+};
+
 int 	check_duplicates(t_ledger *root, int n)
 {
 	int 	i;
@@ -113,73 +268,6 @@ t_node	*merge_sort(t_node *head)
     return (merge(head,second));
 }
 
-int 	pick_score(t_stack *ledger)
-{
-	int 	i;
-	int		min;
-	int		imin;
-	t_node 	tmp;
-
-	i = 0;
-	imin = 0;
-	min = 10000;
-	tmp = ledger->a->head;
-	while (i < ledger->asize)
-	{
-		if (tmp->score < min)
-		{
-			min = tmp->score;
-			imin = i;
-		}
-		i++;
-	}
-	return (imin);
-}
-
-void	calculate_scores(t_stack *ledger)
-{
-	t_node 	*temp;
-	t_node	*tmp;
-	int 	min;
-	int 	i;
-
-	min = 0;
-	i = 0;
-	temp = ledger->a->head;
-	tmp = ledger->b->head;
-	while (temp != NULL)
-	{
-		if (bsize <= 2)
-			return (0);
-		else
-		{
-			min = 0;
-			if (temp->pos < tmp->pos)
-			{
-				while (temp->pos < tmp->pos)
-				{
-					tmp = tmp->next;
-					min++;
-				}
-			}
-			else if (temp->pos > tmp->pos)
-			{
-				while (temp->pos > tmp->pos)
-				{
-					tmp = tmp->next;
-					min++;
-				}
-			}
-			i = (i > (ledger->asize / 2)) ? i: ledger->asize - i;
-			min = (min > (ledger->bsize / 2) ? i : ledger->asize - i);
-			temp->score = min + i;
-		}
-		if (temp->next != NULL)
-			temp = temp->next;
-		i++;
-	}
-}
-
 void 	set_place(t_stack *ledger)
 {
 	int 	i;
@@ -230,6 +318,71 @@ int 	initialize_ledger(t_stack *ledger, int argc)
 	return (1);
 }
 
+int 	pick_score(t_stack *ledger)
+{
+	int 	i;
+	int		min;
+	int		imin;
+	t_node 	tmp;
+
+	i = 0;
+	imin = 0;
+	min = 1000;
+	tmp = ledger->a->head;
+	while (i < ledger->asize)
+	{
+		if (tmp->score < min)
+		{
+			min = tmp->score;
+			imin = i;
+		}
+		i++;
+	}
+	return (imin);
+}
+
+int		calculate_score(t_stack *ledger)
+{
+	t_node 	*stacka;
+	t_node	*stackb;
+	t_node	*tailb;
+	int 	min;
+	int 	i;
+
+	min = 0;
+	i = 0;
+	stacka = ledger->a->head;
+	stackb = ledger->b->head;
+	tailb = ledger->b->tail;
+	if (bsize <= 2)
+		return (0);
+	else
+	{
+		min = 0;
+		if ((stacka->pos < stackb->pos && stacka->pos > tailb->pos) ||
+		 (stacka->pos > stackb->pos && stacka->pos < tailb->pos))
+		 	return (min);
+		if (stacka->pos > stackb->pos)
+		{
+			while (stacka->pos > stackb->pos)
+			{
+				stackb = stackb->next;
+				min++;
+			}
+		}
+		while (stacka->pos > stackb->pos)
+		{
+			stackb = stackb->next;
+			min++;
+		}
+		i = (i > (ledger->asize / 2)) ? i: ledger->asize - i;
+		min = (min > (ledger->bsize / 2) ? i : 0,ledger->asize - i);
+		stacka->score = min + i;
+	}
+	i++;
+
+}
+
 void 	solver(t_ledger *root)
 {
 	int 	solved;
@@ -242,9 +395,8 @@ void 	solver(t_ledger *root)
 	{
 		while (!solved)
 		{
-			calculate_scores(root);
+			calculate_score(root);
 			index = pick_score(root);
-			put_moves();
 		}
 	}
 }
