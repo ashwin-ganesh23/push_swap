@@ -2,11 +2,11 @@
 
 void		sa(t_ledger *stk)
 {
-	int 	tmp;
+	t_node	*tmp;
 
 	if (stk->asize > 1)
 	{
-		tmp = stk->a[stk->asize - 1];
+		tmp = stk->a->head;
 		stk->a[stk->asize - 1] = stk->a[stk->asize - 2];
 		stk->a[stk->asize - 2] = tmp;
 	}
@@ -180,7 +180,28 @@ int 	check_duplicates(t_ledger *root, int n)
 	return (1);
 }
 
-void    parse_pargs(t_ledger *root, int argc, char **argv)
+int     valid_int(char *str)
+{
+	if (ft_max_atoi(str) > INT_MAX || ft_max_atoi(str) < INT_MIN)
+		return (0);
+	if (*str == '-')
+		str++;
+	while (*str != 0)
+	{
+		if (*str < '0' || *str > '9')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+void	put_error()
+{
+	ft_putstr("Error\n");
+	exit (0);
+}
+
+void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 {
 	int 	i;
 
@@ -191,23 +212,28 @@ void    parse_pargs(t_ledger *root, int argc, char **argv)
 			put_error();
 		if (!check_duplicates(root, ft_atoi(argv[argc])))
 			put_error();
-		root->a[i++] = ft_atoi(argv[argc]);
+		if (i = 0)
+		{
+			ledger->a->tail = new_nodelst(ft_atoi(argv[argc]));
+			ledger->a->head = ledger->a->tail;
+		}
+		insert_node(ledger->a->head, ledger->a, ft_atoi(argv[argc]));
 	}
-	root->a[i] = '\0';
 }
 
-t_node	*new_nodelst()
+t_node	*new_nodelst(int input)
 {
 	t_node 	*node;
 
-	if ((node = (t_node *)malloc(sizeof(*node))) == NULL)
+	if ((node = (t_node *)malloc(sizeof(t_node))) == NULL)
 		return (0);
 	node->next = NULL;
 	node->prev = NULL;
+	node->data = input;
 	return (node);
 }
 
-int		insert_node(t_node *node, t_list *master)
+int		insert_node(t_node *head, t_list *master, int input)
 {
 	t_node *temp;
 
@@ -215,17 +241,18 @@ int		insert_node(t_node *node, t_list *master)
 		return (0);
 	temp->next = NULL;
 	temp->prev = NULL;
-	if (!node)
-		node = temp;
+	temp->data = input;
+	if (!head)
+		head = temp;
 	else
 	{
-		temp->next = node;
-		node->prev = temp;
+		temp->next = head;
+		head->prev = temp;
 		master->head = temp;
 	}
 	temp->next = node;
 	node = temp;
-	return (1);
+	return (0);
 }
 
 t_node	*split(t_node *head)
@@ -307,6 +334,10 @@ int 	initialize_ledger(t_stack *ledger, int argc)
 	i = 0;
 	root->a = NULL;
 	root->b = NULL;
+	if ((root->a = (t_list *)malloc(sizeof(t_list))) == NULL)
+		return (0);
+	if ((root->b = (t_list *)malloc(sizeof(t_list))) == NULL)
+		return (0);
 	if ((root->instructions = (char**)malloc(sizeof(char*) * 11)) == NULL)
 		return (0);
 	while (i < 11)
