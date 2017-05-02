@@ -53,6 +53,18 @@ void		pb(t_ledger *stk)
 		tmp = stk->a[stk->asize];
 		stk->a[stk->asize] = 0;
 		stk->b[stk->bsize++] = tmp;
+		if (stk->min != NULL && stk->max != NULL)
+		{
+			if (stk->min->data > tmp)
+				stk->min = stk->b[stk->bsize-1];
+			if (stk->max->data > tmp)
+			 	stk->max = stk->b[stk->bsize-1];
+		}
+		if (stk->min == NULL && stk->max == NULL)
+		{
+			stk->min = stk->b[stk->bsize-1];
+			stk->max = stk->b[stk->bsize-1];
+		}
 	}
 }
 
