@@ -17,14 +17,14 @@ typedef struct	s_node
 	struct s_node	*next;
 	struct s_node	*prev;
 	int				pos;
-	int 			score;
+	int				score;
 }				t_node;
 
 typedef struct	s_list
 {
 	struct s_node 	*head;
-	struct s_node	*tail;
-	struct s_node 	*max;
+	struct s_node	*tail
+	struct s_node	*max;
 	struct s_node	*min;
 }				t_list;
 
@@ -32,6 +32,11 @@ typedef	struct	s_ledger
 {
 	struct s_list	*a;
 	struct s_list	*b;
+	int				*posa;
+	int				*posb;
+	int				*score;
+	int				min;
+	int				max;
 	size_t 			asize;
 	size_t			bsize;
 	char 			**instructions;
