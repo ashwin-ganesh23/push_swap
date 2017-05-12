@@ -20,18 +20,18 @@ typedef struct	s_node
 	int				score;
 }				t_node;
 
-typedef struct	s_list
+typedef struct	s_plist
 {
 	struct s_node 	*head;
-	struct s_node	*tail
+	struct s_node	*tail;
 	struct s_node	*max;
 	struct s_node	*min;
-}				t_list;
+}				t_plist;
 
 typedef	struct	s_ledger
 {
-	struct s_list	*a;
-	struct s_list	*b;
+	struct s_plist	*a;
+	struct s_plist	*b;
 	size_t 			asize;
 	size_t			bsize;
 	char 			**instructions;

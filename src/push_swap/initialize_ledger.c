@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../includes/push_swap.h"
 
 int 	initialize_ledger(t_stack *ledger, int argc)
 {
@@ -7,9 +7,9 @@ int 	initialize_ledger(t_stack *ledger, int argc)
 	i = 0;
 	root->a = NULL;
 	root->b = NULL;
-	if ((root->a = (t_list *)malloc(sizeof(t_list))) == NULL)
+	if ((root->a = (t_plist *)malloc(sizeof(t_plist))) == NULL)
 		return (0);
-	if ((root->b = (t_list *)malloc(sizeof(t_list))) == NULL)
+	if ((root->b = (t_plist *)malloc(sizeof(t_plist))) == NULL)
 		return (0);
 	if ((root->instructions = (char**)malloc(sizeof(char*) * 11)) == NULL)
 		return (0);

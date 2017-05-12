@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../includes/push_swap.h"
 
 t_node	*new_nodelst(int input)
 {
@@ -12,7 +12,7 @@ t_node	*new_nodelst(int input)
 	return (node);
 }
 
-int		insert_node(t_node *head, t_list *master, int input)
+int		insert_node(t_node *head, t_plist *master, int input)
 {
 	t_node *temp;
 
