@@ -5,23 +5,27 @@ void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 	int 	i;
 
 	i = 0;
+	if (argc == 2)
+	{
+		parse_arg(ledger, argv[1]);
+		argc--;
+	}
 	while (argc > 1)
 	{
 		if (!valid_int(argv[--argc]))
 			put_error();
 		if (!check_duplicates(root, ft_atoi(argv[argc])))
 			put_error();
-		if (i = 0)
+		if (ledger->a->tail == NULL)
 		{
 			ledger->a->tail = new_nodelst(ft_atoi(argv[argc]));
 			ledger->a->head = ledger->a->tail;
-			//root->a[i++] = ft_atoi(argv[argc]);
 		}
 		else
 		{
 			insert_node(ledger->a->head, ledger->a, ft_atoi(argv[argc]));
-			//root->a[i++] = ft_atoi(argv[arc]);
 		}
+		ledger->asize++;
     }
 	ledger->a->head->prev = ledger->a->tail;
 	ledger->a->tail->next = ledger->a->head;
@@ -29,13 +33,17 @@ void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 
 int 	check_duplicates(t_ledger *root, int n)
 {
-	int 	i;
+	t_node	*tmp;
 
-	i = 0;
-	while (root->a[i] != 0)
+	tmp = root->a->head;
+	while (tmp != NULL)
 	{
-		if (root->a[i++] == n)
+		if (tmp->data == n)
 			return (0);
+		if (tmp != root->a->tail)
+			tmp = tmp->next;
+		else
+			tmp = NULL;
 	}
 	return (1);
 }
@@ -53,4 +61,29 @@ int     valid_int(char *str)
 		str++;
 	}
 	return (1);
+}
+
+void 	parse_arg(t_ledger *ledger, char *arg)
+{
+	char **args;
+
+	args = ft_strsplit(arg, ' ');
+	while (*args)
+	{
+		if (!valid_int(*args))
+			put_error();
+		if (!check_duplicates(root, ft_atoi(*args)))
+			put_error();
+		if (ledger->a->tail == NULL)
+		{
+			ledger->a->tail = new_nodelst(ft_atoi(*args));
+			ledger->a->head = ledger->a->tail;
+		}
+		else
+			insert_node(ledger->a->head, ledger->a, ft_atoi(argv[*args]));
+		*args++;
+		ledger->asize++;
+	}
+	ledger->a->head->prev = ledger->a->tail;
+	ledger->a->tail->next = ledger->a->head;
 }

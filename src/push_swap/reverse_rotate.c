@@ -2,37 +2,19 @@
 
 void		rra(t_ledger *stk)
 {
-	size_t 	tsize;
-	int 	tmp;
-
 	if (stk->asize > 1)
 	{
-		tsize = 0;
-		tmp = stk->a[0];
-		while (tsize < stk->asize)
-		{
-			stk->a[tsize] = stk->a[tsize + 1];
-			tsize++;
-		}
-		stk->a[stk->asize] = tmp;
+		stk->a->head = stk->a->tail;
+		stk->a->tail = stk->a->tail->prev;
 	}
 }
 
 void		rrb(t_ledger *stk)
 {
-	size_t 	tsize;
-	int 	tmp;
-
 	if (stk->bsize > 1)
 	{
-		tsize = 0;
-		tmp = stk->b[0];
-		while (tsize < stk->bsize)
-		{
-			stk->b[tsize] = stk->b[tsize + 1];
-			tsize++;
-		}
-		stk->b[stk->bsize] = tmp;
+		stk->b->head = stk->b->tail;
+		stk->b->tail = stk->b->tail->prev;
 	}
 }
 

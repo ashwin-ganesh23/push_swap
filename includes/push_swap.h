@@ -32,11 +32,6 @@ typedef	struct	s_ledger
 {
 	struct s_list	*a;
 	struct s_list	*b;
-	int				*posa;
-	int				*posb;
-	int				*score;
-	int				min;
-	int				max;
 	size_t 			asize;
 	size_t			bsize;
 	char 			**instructions;

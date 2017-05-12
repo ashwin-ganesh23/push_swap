@@ -2,7 +2,8 @@
 
 void		pa(t_ledger *stk)
 {
-	int 	tmp;
+	t_node 	*tmp;
+	t_node	*temp;
 
 	if (stk->bsize > 0)
 	{
@@ -12,6 +13,7 @@ void		pa(t_ledger *stk)
 		{
 			temp->next->prev = NULL;
 			stk->b->head = temp->next;
+			stk->b->tail->next = stk->b->head;
 		}
 		else
 		{
@@ -20,19 +22,28 @@ void		pa(t_ledger *stk)
 			stk->b->max = NULL;
 			stk->b->min = NULL;
 		}
-		if (stk->asize > 0)
+		if (stk->asize == 0)
+		{
+			stk->a->head = temp;
+			stk->a->tail = temp;
+		}
+		else
+		{
 			tmp->prev = temp;
-		stk->a->head = temp;
+			temp->next = tmp;
+			temp->prev = stk->a->tail;
+			stk->a->head = temp;
+			stk->a->tail->next = stk->a->head;
+		}
 		stk->bsize--;
-		// tmp = stk->b[stk->bsize];
-		// stk->b[stk->bsize] = 0;
-		// stk->a[stk->asize++] = tmp;
+		stk->asize++;
 	}
 }
 
 void		pb(t_ledger *stk)
 {
-	int 	tmp;
+	t_node	*tmp;
+	t_node	*temp;
 
 	if (stk->asize > 0)
 	{
@@ -42,32 +53,44 @@ void		pb(t_ledger *stk)
 		{
 			temp->next->prev = NULL;
 			stk->a->head = temp->next;
+			stk->a->tail->next = stk->a->head;
 		}
 		else
 		{
 			stk->a->head = NULL:
 			stk->a->tail = NULL;
-			stk->a->max = NULL;
-			stk->a->min = NULL;
 		}
-		if (stk->bsize > 0)
+		if (stk->bsize == 0)
+		{
+			stk->b->head = temp;
+			stk->b->tail = stk->b->head;
+		}
+		else
+		{
 			tmp->prev = temp;
-		stk->b->head = temp;
+			temp->next = tmp;
+			temp->prev = stk->b->tail;
+			stk->b->head = temp;
+			stk->b->tail->next = stk->b->head;
+		}
 		stk->asize--;
-		// tmp = stk->a[stk->asize];
-		// stk->a[stk->asize] = 0;
-		// stk->b[stk->bsize++] = tmp;
+		stk->bsize++;
 		if (stk->min != NULL && stk->max != NULL)
 		{
-			if (stk->b[min] > tmp)
-				stk->min = stk->bsize-1;
-			if (stk->b[max] < tmp)
-			 	stk->max = stk->bsize-1;
+			if (stk->b->min->data > tmp->data)
+				stk->min = tmp;
+			if (stk->b->max->data < tmp->data)
+			 	stk->max = tmp;
 		}
 		if (stk->min == NULL && stk->max == NULL)
 		{
-			stk->min = stk->b[stk->bsize-1];
-			stk->max = stk->b[stk->bsize-1];
+			stk->min = tmp;
+			stk->max = tmp;
 		}
 	}
 }
+
+
+// tmp = stk->b[stk->bsize];
+// stk->b[stk->bsize] = 0;
+// stk->a[stk->asize++] = tmp;

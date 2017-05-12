@@ -18,7 +18,7 @@ int 	initialize_ledger(t_stack *ledger, int argc)
 		if ((root->instructions[i++] = (char *)malloc(sizeof(char) * 4)) == NULL)
 			return (0);
 	}
-	root->asize = argc - 1;
+	root->asize = 0;
 	root->bsize = 0;
 	root->instructions[0] = "sa\0";
 	root->instructions[1] = "sb\0";
@@ -54,7 +54,8 @@ void 	set_place(t_stack *ledger)
 			t = t->next;
 			j++;
 		}
-		tmp->pos = i++;
+		tmp->pos = j;
 		tmp = tmp->next;
+		i++;
 	}
 }

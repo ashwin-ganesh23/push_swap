@@ -11,16 +11,6 @@ void 	solver(t_ledger *root)
 	else
 	{
 		big_solver(root);
-		if (root->bsize < 2)
-		{
-
-		}
-		while (!solved)
-		{
-
-			calculate_score(root);
-			index = pick_score(root);
-		}
 	}
 }
 
@@ -86,11 +76,6 @@ int 	pick_score(t_stack *ledger)
 }
 
 void 	small_solver()
-{
-
-}
-
-void 	big_solver()
 {
 
 }
