@@ -15,14 +15,16 @@ void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 		{
 			ledger->a->tail = new_nodelst(ft_atoi(argv[argc]));
 			ledger->a->head = ledger->a->tail;
-			root->a[i++] = ft_atoi(argv[argc]);
+			//root->a[i++] = ft_atoi(argv[argc]);
 		}
 		else
 		{
 			insert_node(ledger->a->head, ledger->a, ft_atoi(argv[argc]));
-			root->a[i++] = ft_atoi(argv[arc]);
+			//root->a[i++] = ft_atoi(argv[arc]);
 		}
     }
+	ledger->a->head->prev = ledger->a->tail;
+	ledger->a->tail->next = ledger->a->head;
 }
 
 int 	check_duplicates(t_ledger *root, int n)
