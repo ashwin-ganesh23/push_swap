@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../includes/push_swap.h"
 
 void 	(*g_funcs[11])(t_ledger *stk) =
 {
@@ -37,5 +37,5 @@ int		main(int argc, char **argv)
 		print("%i\n", root.a->pos);
 		root.a = root.a->next;
 	}
-	solver(&root);
+	//solver(&root);
 }
