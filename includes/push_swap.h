@@ -32,6 +32,7 @@ typedef	struct	s_ledger
 {
 	struct s_list	*a;
 	struct s_list	*b;
+	int				pivot;
 	size_t 			asize;
 	size_t			bsize;
 	char 			**instructions;

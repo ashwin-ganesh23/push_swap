@@ -29,7 +29,7 @@ int		insert_node(t_node *head, t_list *master, int input)
 		head->prev = temp;
 		master->head = temp;
 	}
-	temp->next = master->head;
+	temp->next = head;
 	master->head = temp;
 	return (0);
 }
