@@ -3,18 +3,18 @@
 void 	solver(t_ledger *root)
 {
 	int 	solved;
-	int 	index;
 
 	solved = 0;
 	if (root->asize < 5)
-		small_solver(root);
+		big_solver(root);
+		//small_solver(root);
 	else
 	{
 		big_solver(root);
 	}
 }
 
-int		calculate_score(t_stack *ledger, int i)
+int		calculate_score(t_ledger *ledger, int i)
 {
 	t_node	*tmp;
 	int		pivot;
@@ -24,38 +24,20 @@ int		calculate_score(t_stack *ledger, int i)
 	return (optimal_score(ledger, i, pivot));
 }
 
-t_node	*get_nth(t_list *stack, int i)
+int		optimal_score(t_ledger *ledger, int i, int pivot)
 {
-	t_node	*tmp;
-	int		index;
+	size_t	optimal;
+	size_t	rrr;
+	size_t	rr;
+	size_t	index;
 
 	index = i;
-	tmp = stack->head;
-	while (index > 0)
-	{
-		tmp = tmp->next;
-		index--;
-	}
-	while (index < 0)
-	{
-		tmp = tmp->prev;
-		index++;
-	}
-	return (tmp);
-}
-
-int		optimal_score(t_stack *ledger, int i, int pivot)
-{
-	int		optimal;
-	int		rrr;
-	int		rr;
-
-	optimal = (i < ledger->asize / 2) ? i : ledger->asize - i;
-	optimal += (i < ledger->bsize / 2) ? i : ledger->bsize - i;
+	optimal = (index < (ledger->asize / 2)) ? i : ledger->asize - i;
+	optimal += (index < (ledger->bsize / 2)) ? i : ledger->bsize - i;
 	rrr = (i < pivot) ? ledger->bsize - pivot : ledger->asize - i;
 	rrr += (rrr == ledger->bsize - pivot) ? pivot - i : i - pivot;
 	rr = (i > pivot) ? pivot : i;
-	rr += (rrr == pivot) ? i - pivot : pivot - i;
+	rr += (rr == (size_t)pivot) ? i - pivot : pivot - i;
 	if (rr < optimal)
 		optimal = rr;
 	if (rrr < optimal)
@@ -63,19 +45,21 @@ int		optimal_score(t_stack *ledger, int i, int pivot)
 	return (optimal);
 }
 
-int		optimal_move(t_stack *ledger, int i, int pivot)
+int		optimal_move(t_ledger *ledger, int i, int pivot)
 {
-	int		optimal;
-	int		rrr;
-	int		rr;
-	int		ret;
+	size_t	optimal;
+	size_t	rrr;
+	size_t	rr;
+	size_t	ret;
+	size_t	index;
 
-	optimal = (i < ledger->asize / 2) ? i : ledger->asize - i;
-	optimal += (i < ledger->bsize / 2) ? i : ledger->bsize - i;
+	index = i;
+	optimal = (index < ledger->asize / 2) ? i : ledger->asize - i;
+	optimal += (index < ledger->bsize / 2) ? i : ledger->bsize - i;
 	rrr = (i < pivot) ? ledger->bsize - pivot : ledger->asize - i;
 	rrr += (rrr == ledger->bsize - pivot) ? pivot - i : i - pivot;
 	rr = (i > pivot) ? pivot : i;
-	rr += (rrr == pivot) ? i - pivot : pivot - i;
+	rr += (rrr == (size_t)pivot) ? i - pivot : pivot - i;
 	if (rr < optimal)
 		ret = 1;
 	else if (rrr < optimal)
@@ -87,36 +71,22 @@ int		optimal_move(t_stack *ledger, int i, int pivot)
 
 
 
-int		find_pivot(t_list *sb, int data)
+int		find_pivot(t_stack *sb, int data)
 {
-	t_node	tmp;
+	t_node	*tmp;
 
-	tmp = sb->b->min;
+	tmp = sb->min;
 	if (data > sb->max->data)
 		return (get_index(sb, sb->max));
 	if (data < sb->min->data)
 		return (get_index(sb, sb->min));
-	while (tmp->data != sb->max data)
+	while (tmp->data != sb->max->data)
 	{
 		if (data < tmp->data)
 			return (get_index(sb, tmp));
 		tmp = tmp->next;
 	}
-
-}
-
-int		get_index(t_list *stack, t_node input)
-{
-	t_node	thead;
-	int		index;
-
-	thead = stack->head;
-	while (thead->data != input->data)
-	{
-		thead = thead->next;
-		index++;
-	}
-	return (index);
+	return (get_index(sb, tmp));
 }
 
 // int		calculate_score(t_stack *ledger, int i)

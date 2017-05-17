@@ -12,7 +12,7 @@ t_node	*new_nodelst(int input)
 	return (node);
 }
 
-int		insert_node(t_node *head, t_plist *master, int input)
+int		insert_node(t_node *head, t_stack *master, int input)
 {
 	t_node *temp;
 
@@ -32,4 +32,39 @@ int		insert_node(t_node *head, t_plist *master, int input)
 	temp->next = head;
 	master->head = temp;
 	return (0);
+}
+
+t_node	*get_nth(t_stack *stack, int i)
+{
+	t_node	*tmp;
+	int		index;
+
+	index = i;
+	tmp = stack->head;
+	while (index > 0)
+	{
+		tmp = tmp->next;
+		index--;
+	}
+	while (index < 0)
+	{
+		tmp = tmp->prev;
+		index++;
+	}
+	return (tmp);
+}
+
+int		get_index(t_stack *stack, t_node *input)
+{
+	t_node	*thead;
+	int		index;
+
+	thead = stack->head;
+	index = 0;
+	while (thead->data != input->data)
+	{
+		thead = thead->next;
+		index++;
+	}
+	return (index);
 }

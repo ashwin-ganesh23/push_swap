@@ -14,9 +14,10 @@ void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 	{
 		if (!valid_int(argv[--argc]))
 			put_error();
-		if (!check_duplicates(root, ft_atoi(argv[argc])))
+		if (!check_duplicates(ledger, ft_atoi(argv[argc])))
 			put_error();
-		if (ledger->a->tail == NULL)
+		//printf("test\n");
+		if (ledger->asize == 0)
 		{
 			ledger->a->tail = new_nodelst(ft_atoi(argv[argc]));
 			ledger->a->head = ledger->a->tail;
@@ -26,6 +27,7 @@ void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 			insert_node(ledger->a->head, ledger->a, ft_atoi(argv[argc]));
 		}
 		ledger->asize++;
+		printf("test\n");
     }
 	ledger->a->head->prev = ledger->a->tail;
 	ledger->a->tail->next = ledger->a->head;
@@ -35,17 +37,37 @@ int 	check_duplicates(t_ledger *root, int n)
 {
 	t_node	*tmp;
 
-	tmp = root->a->head;
-	while (tmp != NULL)
+	tmp = NULL;
+	if (root->asize == 0)
+		return (1);
+	else
+		tmp = root->a->head;
+	while (tmp->data != root->a->tail->data)
 	{
 		if (tmp->data == n)
 			return (0);
-		if (tmp != root->a->tail)
+		if (tmp->data != root->a->tail->data)
 			tmp = tmp->next;
 		else
 			tmp = NULL;
 	}
+	if (tmp->data == n)
+		return (0);
 	return (1);
+}
+
+ssize_t		ft_max_atoi(char *str)
+{
+    size_t	value;
+    int 	negative;
+
+    value = 0;
+    negative = (*str == '-') ? -1 : 1;
+    if (*str == '-')
+        str++;
+    while (*str != 0)
+        value = value * 10 + (*str++ - '0');
+    return (value * negative);
 }
 
 int     valid_int(char *str)
@@ -72,7 +94,7 @@ void 	parse_arg(t_ledger *ledger, char *arg)
 	{
 		if (!valid_int(*args))
 			put_error();
-		if (!check_duplicates(root, ft_atoi(*args)))
+		if (!check_duplicates(ledger, ft_atoi(*args)))
 			put_error();
 		if (ledger->a->tail == NULL)
 		{
@@ -80,8 +102,8 @@ void 	parse_arg(t_ledger *ledger, char *arg)
 			ledger->a->head = ledger->a->tail;
 		}
 		else
-			insert_node(ledger->a->head, ledger->a, ft_atoi(argv[*args]));
-		*args++;
+			insert_node(ledger->a->head, ledger->a, ft_atoi(*args));
+		args++;
 		ledger->asize++;
 	}
 	ledger->a->head->prev = ledger->a->tail;

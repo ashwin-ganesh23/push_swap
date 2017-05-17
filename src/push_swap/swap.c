@@ -14,9 +14,9 @@ void		sa(t_ledger *stk)
 			stk->a->head = temp;
 			stk->a->tail = tmp;
 			stk->a->head->next = stk->a->tail;
-			stk->a->head->prev = stl->a->tail;
-			stk->a->tail->next = stl->a->head;
-			stk->a->tail->prev = stl->a->head;
+			stk->a->head->prev = stk->a->tail;
+			stk->a->tail->next = stk->a->head;
+			stk->a->tail->prev = stk->a->head;
 		}
 		else
 		{
@@ -47,9 +47,9 @@ void		sb(t_ledger *stk)
 			stk->b->head = temp;
 			stk->b->tail = tmp;
 			stk->b->head->next = stk->b->tail;
-			stk->b->head->prev = stl->b->tail;
-			stk->b->tail->next = stl->b->head;
-			stk->b->tail->prev = stl->b->head;
+			stk->b->head->prev = stk->b->tail;
+			stk->b->tail->next = stk->b->head;
+			stk->b->tail->prev = stk->b->head;
 		}
 		else
 		{

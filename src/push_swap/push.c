@@ -17,7 +17,7 @@ void		pa(t_ledger *stk)
 		}
 		else
 		{
-			stk->b->head = NULL:
+			stk->b->head = NULL;
 			stk->b->tail = NULL;
 			stk->b->max = NULL;
 			stk->b->min = NULL;
@@ -57,7 +57,7 @@ void		pb(t_ledger *stk)
 		}
 		else
 		{
-			stk->a->head = NULL:
+			stk->a->head = NULL;
 			stk->a->tail = NULL;
 		}
 		if (stk->bsize == 0)
@@ -75,17 +75,17 @@ void		pb(t_ledger *stk)
 		}
 		stk->asize--;
 		stk->bsize++;
-		if (stk->min != NULL && stk->max != NULL)
+		if (stk->b->min != NULL && stk->b->max != NULL)
 		{
 			if (stk->b->min->data > tmp->data)
-				stk->min = tmp;
+				stk->b->min = tmp;
 			if (stk->b->max->data < tmp->data)
-			 	stk->max = tmp;
+			 	stk->b->max = tmp;
 		}
-		if (stk->min == NULL && stk->max == NULL)
+		if (stk->b->min == NULL && stk->b->max == NULL)
 		{
-			stk->min = tmp;
-			stk->max = tmp;
+			stk->b->min = tmp;
+			stk->b->max = tmp;
 		}
 	}
 }

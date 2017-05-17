@@ -2,13 +2,15 @@
 
 void 	big_solver(t_ledger *root)
 {
-	int index;
+	size_t index;
 
 	while (root->bsize < 2)
 		put_instruction(root, 4);
 	while (root->asize > 0)
 	{
+		printf("test\n");
 		index = get_insert(root);
+		printf("test\n");
 		insert_b(root, index);
 	}
 	index = get_index(root->b, root->b->max);
@@ -56,8 +58,8 @@ void	insert_b(t_ledger *ledger, int index)
 
 void 	strat_one(t_ledger *ledger, int index, int pivot)
 {
-	int		i;
-	int		p;
+	size_t	i;
+	size_t	p;
 
 	i = index;
 	p = pivot;
@@ -65,7 +67,7 @@ void 	strat_one(t_ledger *ledger, int index, int pivot)
 	{
 		while (i > 0)
 		{
-			put_instruction(root, 5);
+			put_instruction(ledger, 5);
 			i--;
 		}
 	}
@@ -73,17 +75,17 @@ void 	strat_one(t_ledger *ledger, int index, int pivot)
 	{
 		while (i != 0)
 		{
-			put_instruction(root, 8);
-			i++:
+			put_instruction(ledger, 8);
+			i++;
 		}
 		if (i == ledger->bsize)
-			i == 0;
+			i = 0;
 	}
 	if (p < ledger->bsize / 2)
 	{
 		while (p > 0)
 		{
-			put_instruction(root, 6);
+			put_instruction(ledger, 6);
 			p--;
 		}
 	}
@@ -91,21 +93,21 @@ void 	strat_one(t_ledger *ledger, int index, int pivot)
 	{
 		while (p != 0)
 		{
-			put_instruction(root, 9);
-			p++:
+			put_instruction(ledger, 9);
+			p++;
 		}
 		if (p == ledger->bsize)
-			p == 0;
+			p = 0;
 	}
 	if (i == 0 && p == 0)
-		put_instruction(root, 4);
+		put_instruction(ledger, 4);
 }
 
 void 	strat_two(t_ledger *ledger, int index, int pivot)
 {
-	int		diff;
-	int		p;
-	int		i;
+	size_t	diff;
+	size_t	p;
+	size_t	i;
 
 	p = pivot;
 	i = index;
@@ -114,12 +116,12 @@ void 	strat_two(t_ledger *ledger, int index, int pivot)
 		diff = i - p;
 		while (p > 0)
 		{
-			put_instruction(root, 7);
+			put_instruction(ledger, 7);
 			p--;
 		}
 		while (diff > 0)
 		{
-			put_instruction(root, 5);
+			put_instruction(ledger, 5);
 			diff--;
 		}
 	}
@@ -128,12 +130,12 @@ void 	strat_two(t_ledger *ledger, int index, int pivot)
 		diff = p - i;
 		while (i > 0)
 		{
-			put_instruction(root, 7);
-			i--
+			put_instruction(ledger, 7);
+			i--;
 		}
 		while (diff > 0)
 		{
-			put_instruction(root, 6);
+			put_instruction(ledger, 6);
 			diff--;
 		}
 	}
@@ -141,18 +143,18 @@ void 	strat_two(t_ledger *ledger, int index, int pivot)
 	{
 		while (p > 0)
 		{
-			put_instruction(root, 7);
+			put_instruction(ledger, 7);
 			p--;
 		}
 	}
-	put_instruction(root, 4);
+	put_instruction(ledger, 4);
 }
 
 void 	strat_three(t_ledger *ledger, int index, int pivot)
 {
-	int		diff;
-	int		p;
-	int		i;
+	size_t	diff;
+	size_t	p;
+	size_t	i;
 
 	p = pivot;
 	i = index;
@@ -161,12 +163,12 @@ void 	strat_three(t_ledger *ledger, int index, int pivot)
 		diff = (ledger->bsize - p) - (ledger->asize - i);
 		while (i < ledger->bsize)
 		{
-			put_instruction(root, 10);
+			put_instruction(ledger, 10);
 			i++;
 		}
 		while (diff > 0)
 		{
-			put_instruction(root, 9);
+			put_instruction(ledger, 9);
 			diff--;
 		}
 	}
@@ -175,12 +177,12 @@ void 	strat_three(t_ledger *ledger, int index, int pivot)
 		diff = (ledger->asize - i) - (ledger->bsize - p);
 		while (p < ledger->asize)
 		{
-			put_instruction(root, 10);
+			put_instruction(ledger, 10);
 			p++;
 		}
 		while (diff > 0)
 		{
-			put_instruction(root, 8);
+			put_instruction(ledger, 8);
 			diff--;
 		}
 	}
@@ -188,17 +190,17 @@ void 	strat_three(t_ledger *ledger, int index, int pivot)
 	{
 		while (p > ledger->bsize)
 		{
-			put_instruction(root, 10);
+			put_instruction(ledger, 10);
 			p--;
 		}
 	}
-	put_instruction(root, 4);
+	put_instruction(ledger, 4);
 }
 
 void 	put_instruction(t_ledger *root, int i)
 {
 	printf("%s\n", root->instructions[i]);
-	g_funcs[i](root);
+	g_stack[i](root);
 }
 
 int		get_insert(t_ledger *root)
@@ -206,7 +208,7 @@ int		get_insert(t_ledger *root)
 	int index;
 	int lmoves;
 	int tmoves;
-	int i;
+	size_t i;
 
 	i = 0;
 	lmoves = calculate_score(root, i++);
@@ -223,8 +225,5 @@ int		get_insert(t_ledger *root)
 		i *= -1;
 		i++;
 	}
-	return (lowest);
-
-	calculate_score(root);
-	index = pick_score(root);
+	return (index);
 }

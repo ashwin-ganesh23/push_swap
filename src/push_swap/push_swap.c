@@ -1,6 +1,12 @@
 #include "../includes/push_swap.h"
 
-void 	(*g_funcs[11])(t_ledger *stk) =
+void	put_error()
+{
+	ft_putstr("Error\n");
+	exit (0);
+}
+
+void 	(*g_stack[11])(t_ledger *stk) =
 {
 	&sa,
 	&sb,
@@ -15,27 +21,23 @@ void 	(*g_funcs[11])(t_ledger *stk) =
 	&rrr,
 };
 
-void	put_error()
-{
-	ft_putstr("Error\n");
-	exit (0);
-}
-
 int		main(int argc, char **argv)
 {
-	t_ledger root;
+	t_ledger 	root;
+	t_node		*tmp;
 
 	if (argc < 2)
 		exit(0);
-	if (!initialize_ledger(&root, argc))
+	if (!initialize_ledger(&root))
 		return (0);
 	parse_pargs(&root, argc, argv);
-	set_place(&root);
+	// set_place(&root);
+	solver(&root);
+	tmp = root.a->head;
 	while (root.asize > 0)
 	{
-		print("%i\t", root.a->data);
-		print("%i\n", root.a->pos);
-		root.a = root.a->next;
+		printf("%i\t", tmp->data);
+		tmp = tmp->next;
+		root.asize--;
 	}
-	//solver(&root);
 }
