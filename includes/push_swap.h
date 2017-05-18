@@ -69,6 +69,7 @@ void    parse_pargs(t_ledger *ledger, int argc, char **argv);
 int 	check_duplicates(t_ledger *root, int n);
 int     valid_int(char *str);
 void 	parse_arg(t_ledger *ledger, char *arg);
+int		get_length(char **args);
 
 void 	put_instruction(t_ledger *root, int i);
 

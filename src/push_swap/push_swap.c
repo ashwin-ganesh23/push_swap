@@ -27,12 +27,16 @@ int		main(int argc, char **argv)
 	t_node		*tmp;
 
 	if (argc < 2)
-		exit(0);
+		return (0);
+	//printf("test\n");
 	if (!initialize_ledger(&root))
 		return (0);
+	//printf("test\n");
 	parse_pargs(&root, argc, argv);
 	// set_place(&root);
+	printf("test\n");
 	solver(&root);
+	printf("test\n");
 	tmp = root.a->head;
 	while (root.asize > 0)
 	{

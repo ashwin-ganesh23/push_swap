@@ -6,8 +6,7 @@ void 	solver(t_ledger *root)
 
 	solved = 0;
 	if (root->asize < 5)
-		big_solver(root);
-		//small_solver(root);
+		small_solver(root);
 	else
 	{
 		big_solver(root);
