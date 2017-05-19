@@ -79,14 +79,14 @@ int		optimal_score(t_ledger *ledger, int i, int pivot);
 int		optimal_move(t_ledger *ledger, int i, int pivot);
 int		find_pivot(t_stack *sb, int data);
 
+int		small_solver(t_ledger *ledger);
+
 void 	big_solver(t_ledger *root);
 void	insert_b(t_ledger *ledger, int index);
 int		get_insert(t_ledger *root);
 void 	strat_one(t_ledger *ledger, int index, int pivot);
 void 	strat_two(t_ledger *ledger, int index, int pivot);
 void 	strat_three(t_ledger *ledger, int index, int pivot);
-
-void 	small_solver(t_ledger *ledger);
 
 
 #endif
