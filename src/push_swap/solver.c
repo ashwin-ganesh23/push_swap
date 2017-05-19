@@ -2,7 +2,7 @@
 
 void 	solver(t_ledger *root)
 {
-	if (root->asize < 5)
+	if (root->asize <= 5)
 		small_solver(root);
 	else
 	{
@@ -16,9 +16,9 @@ int		calculate_score(t_ledger *ledger, int i)
 	int		pivot;
 
 	tmp = get_nth(ledger->a, i);
-	//printf("%d\n", i);
+	printf("%d\n", tmp->data);
 	pivot = find_pivot(ledger->b, tmp->data);
-	printf("pivot: %d", pivot);
+	printf("pivot: %d\n", pivot);
 	return (optimal_score(ledger, i, pivot));
 }
 
@@ -77,11 +77,14 @@ int		find_pivot(t_stack *sb, int data)
 	if (data > sb->max->data)
 		return (get_index(sb, sb->max));
 	if (data < sb->min->data)
-		return (get_index(sb, sb->min));
-	while (tmp->data != sb->max->data)
+		return (get_index(sb, sb->max));
+	printf("%i\n", tmp->data);
+	tmp = tmp->prev;
+	printf("%i\n", tmp->data);
+	while (tmp->data != sb->min->data)
 	{
 		if (data < tmp->data)
-			return (get_index(sb, tmp));
+			return (get_index(sb, tmp->next));
 		tmp = tmp->prev;
 	}
 	return (get_index(sb, tmp));

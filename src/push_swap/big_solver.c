@@ -5,19 +5,23 @@ void 	big_solver(t_ledger *root)
 	size_t index;
 
 	while (root->bsize < 2)
+	{
 		put_instruction(root, 4);
+		print_stacks(root);
+	}
 	while (root->asize > 0)
 	{
-		//printf("test\n");
 		index = get_insert(root);
-		//printf("test\n");
+		printf("index: %zu\n", index);
 		insert_b(root, index);
+		print_stacks(root);
 	}
-	printf("test\n");
+	//printf("test\n");
 	index = get_index(root->b, root->b->max);
+	//printf("%zu\n", index);
 	while (index != 0)
 	{
-		if (index < root->bsize / 2)
+		if (index <= root->bsize / 2)
 		{
 			put_instruction(root, 6);
 			index--;
@@ -31,7 +35,7 @@ void 	big_solver(t_ledger *root)
 		}
 	}
 	while (root->bsize != 0)
-		put_instruction(root, 4);
+		put_instruction(root, 3);
 }
 
 void	insert_b(t_ledger *ledger, int index)
@@ -41,7 +45,7 @@ void	insert_b(t_ledger *ledger, int index)
 	int		om;
 
 	tmp = get_nth(ledger->a, index);
-	printf("test\n");
+	//printf("test\n");
 	pivot = find_pivot(ledger->b, tmp->data);
 	om = optimal_move(ledger, index, pivot);
 	if (om == 0)
@@ -214,9 +218,9 @@ int		get_insert(t_ledger *root)
 
 	i = 0;
 	lmoves = calculate_score(root, i++);
-	//printf("%d\n", lmoves);
+	//printf("lmoves: %d\n", lmoves);
 	index = 0;
-	while (i < root->asize / 2)
+	while (i <= root->asize / 2)
 	{
 		tmoves = calculate_score(root, i);
 		if (tmoves < lmoves)

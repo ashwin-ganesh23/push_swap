@@ -45,7 +45,24 @@ int		main(int argc, char **argv)
 	//printf("test\n");
 
 	solver(&root);
-
+	// put_instruction(&root, 4);
+	// print_stacks(&root);
+	// put_instruction(&root, 4);
+	// put_instruction(&root, 4);
+	// print_stacks(&root);
+	//
+	// put_instruction(&root, 4);
+	// print_stacks(&root);
+	// put_instruction(&root, 4);
+	// print_stacks(&root);
+	//
+	// put_instruction(&root, 3);
+	// print_stacks(&root);
+	// put_instruction(&root, 3);
+	// print_stacks(&root);
+	// printf("%i\n", get_index(root.a, root.a->head->next));
+	// printf("%i\n", get_nth(root.a, 3)->data);
+	//printf("%i\n", find_pivot(root.b, root.a->head->data));
 	//printf("test\n");
 	//tmp = root.a->head;
 	// while (root.asize > 0)
@@ -54,4 +71,40 @@ int		main(int argc, char **argv)
 	// 	tmp = tmp->next;
 	// 	root.asize--;
 	// }
+}
+
+void 	print_stacks(t_ledger *root)
+{
+	t_node	*sa;
+	t_node	*sb;
+	int		bsize;
+	int		asize;
+
+	bsize = root->bsize;
+	asize = root->asize;
+	sa = root->a->head;
+	sb = root->b->head;
+	printf("\nStack visualization:\n");
+	while (bsize > 0 || asize > 0)
+	{
+		if (asize > bsize || asize == bsize)
+		{
+			printf("%d\t", sa->data);
+			asize--;
+			sa = sa->next;
+		}
+		else
+			printf("\t");
+		if (bsize > asize + 1 || bsize == asize + 1)
+		{
+			printf("%d\t", sb->data);
+			bsize--;
+			sb = sb->next;
+		}
+		printf("\n");
+	}
+	printf("_\t_\n");
+	printf("a\tb\n");
+	if (root->bsize != 0)
+		printf("max: %i min: %i\n", root->b->max->data, root->b->min->data);
 }

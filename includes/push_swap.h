@@ -51,6 +51,8 @@ void 		rrr(t_ledger *stk);
 
 void 	(*g_stack[11])(t_ledger *stk);
 
+void 	print_stacks(t_ledger *root);
+
 t_node	*new_nodelst(int input);
 int		insert_node(t_node *head, t_stack *master, int input);
 int		get_index(t_stack *stack, t_node *input);
