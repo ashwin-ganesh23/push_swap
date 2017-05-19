@@ -83,7 +83,7 @@ int		find_pivot(t_stack *sb, int data)
 	{
 		if (data < tmp->data)
 			return (get_index(sb, tmp));
-		tmp = tmp->next;
+		tmp = tmp->prev;
 	}
 	return (get_index(sb, tmp));
 }
