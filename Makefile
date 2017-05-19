@@ -16,17 +16,18 @@ SRC_PUSH 	+=	./src/push_swap/rotate.c
 SRC_PUSH 	+=	./src/push_swap/reverse_rotate.c
 SRC_PUSH 	+=	./src/push_swap/solver.c
 SRC_PUSH 	+=	./src/push_swap/big_solver.c
+SRC_PUSH	+=	./src/push_swap/small_solver.c
 
 LIBFT = -L libft/ -lft
 
 #HEADERS = -I ./includes -I ./libft
-PHEADERS = -I ./includes/push_swap.h -I ./libft
+PHEADERS = -I ./includes -I ./libft
 
 O_FILES = $(SRC:.c=.o)
 
-all: $(CHECK)
+all: $(PUSH)
 
-$(CHECK):
+$(PUSH):
 	cd libft && make all
 	#$(GCC_FLAGS) $(SRC_CHECKER) $(HEADERS) $(LIBFT) -o $(CHECK)
 	$(GCC_FLAGS) $(SRC_PUSH) $(PHEADERS) $(LIBFT) -o $(PUSH)

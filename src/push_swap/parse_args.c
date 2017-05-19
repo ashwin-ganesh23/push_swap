@@ -2,9 +2,6 @@
 
 void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 {
-	int 	i;
-
-	i = 0;
 	if (argc == 2)
 	{
 		parse_arg(ledger, argv[1]);
@@ -119,7 +116,7 @@ void 	parse_arg(t_ledger *ledger, char *arg)
 	//printf("string: %s\n", args[i]);
 	length = get_length(args);
 	//printf("string: %s\n", args[i]);
-	printf("length: %i\n", length);
+	//printf("length: %i\n", length);
 	while (i < length)
 	{
 		if (!valid_int(args[i]))
