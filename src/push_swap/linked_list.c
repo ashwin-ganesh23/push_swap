@@ -54,6 +54,23 @@ t_node	*get_nth(t_stack *stack, int i)
 	return (tmp);
 }
 
+int		get_dindex(t_stack *stack, int d, size_t size)
+{
+	t_node	*tmp;
+	size_t	index;
+
+	index = 0;
+	tmp = stack->head;
+	while (index < size)
+	{
+		if (tmp->data == d)
+			return (index);
+		tmp = tmp->next;
+		index++;
+	}
+	return (index);
+}
+
 int		get_index(t_stack *stack, t_node *input)
 {
 	t_node	*thead;

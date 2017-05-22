@@ -34,6 +34,7 @@ typedef	struct	s_ledger
 	struct s_stack	*b;
 	size_t 			asize;
 	size_t			bsize;
+	size_t			i_count;
 	char 			**instructions;
 }				t_ledger;
 
@@ -52,11 +53,13 @@ void 		rrr(t_ledger *stk);
 void 	(*g_stack[11])(t_ledger *stk);
 
 void 	print_stacks(t_ledger *root);
+int		solved(t_ledger *root);
 
 t_node	*new_nodelst(int input);
 int		insert_node(t_node *head, t_stack *master, int input);
 int		get_index(t_stack *stack, t_node *input);
-t_node	*get_nth(t_stack *stack, int i);;
+int		get_dindex(t_stack *stack, int d, size_t size);
+t_node	*get_nth(t_stack *stack, int i);
 
 t_node	*split(t_node *head);
 t_node	*merge(t_node *first, t_node *second);
@@ -68,6 +71,7 @@ void 	set_place(t_ledger *ledger);
 ssize_t	ft_max_atoi(char *str);
 
 void    parse_pargs(t_ledger *ledger, int argc, char **argv);
+void 	set_maxmin(t_ledger *ledger);
 int 	check_duplicates(t_ledger *root, int n);
 int     valid_int(char *str);
 void 	parse_arg(t_ledger *ledger, char *arg);
@@ -82,6 +86,9 @@ int		optimal_move(t_ledger *ledger, int i, int pivot);
 int		find_pivot(t_stack *sb, int data);
 
 int		small_solver(t_ledger *ledger);
+void 	push_twomin(t_ledger *root);
+void 	sort_in_place(t_ledger *ledger);
+void	insert_sb(t_ledger *ledger, int index);
 
 void 	big_solver(t_ledger *root);
 void	insert_b(t_ledger *ledger, int index);

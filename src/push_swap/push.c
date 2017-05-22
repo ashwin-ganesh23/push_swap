@@ -66,7 +66,7 @@ void		pb(t_ledger *stk)
 		}
 		if (stk->bsize == 0)
 		{
-			stk->b->tail = new_nodelst(temp->data);
+			stk->b->tail = temp;
 			stk->b->head = stk->b->tail;
 			stk->b->head->next = stk->b->tail;
 			stk->b->tail->next = stk->b->head;

@@ -21,6 +21,25 @@ void 	(*g_stack[11])(t_ledger *stk) =
 	&rrr,
 };
 
+int		solved(t_ledger *root)
+{
+	int		count;
+	int		value;
+	t_node	*tmp;
+
+	count = root->asize - 1;
+	tmp = root->a->head;
+	while (count > 0)
+	{
+		value = tmp->data;
+		tmp = tmp->next;
+		if (value > tmp->data)
+			return (0);
+		count--;
+	}
+	return (1);
+}
+
 int		main(int argc, char **argv)
 {
 	t_ledger 	root;
@@ -41,12 +60,15 @@ int		main(int argc, char **argv)
 	// 	tmp = tmp->next;
 	// 	i++;
 	// }
-	// set_place(&root);
+	//set_place(&root);
 	//printf("test\n");
-
-	solver(&root);
+	if (!solved(&root))
+	{
+		solver(&root);
+	}
+	//printf("total moves: %lu\n", root.i_count);
 	// put_instruction(&root, 4);
-	// print_stacks(&root);
+	//print_stacks(&root);
 	// put_instruction(&root, 4);
 	// put_instruction(&root, 4);
 	// print_stacks(&root);

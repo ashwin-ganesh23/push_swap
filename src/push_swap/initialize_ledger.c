@@ -18,6 +18,7 @@ int 	initialize_ledger(t_ledger *root)
 		if ((root->instructions[i++] = (char *)malloc(sizeof(char) * 4)) == NULL)
 			return (0);
 	}
+	root->i_count = 0;
 	root->asize = 0;
 	root->bsize = 0;
 	root->instructions[0] = "sa\0";

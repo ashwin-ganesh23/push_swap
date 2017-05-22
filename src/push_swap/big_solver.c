@@ -7,18 +7,16 @@ void 	big_solver(t_ledger *root)
 	while (root->bsize < 2)
 	{
 		put_instruction(root, 4);
-		print_stacks(root);
+		//print_stacks(root);
 	}
 	while (root->asize > 0)
 	{
 		index = get_insert(root);
-		printf("index: %zu\n", index);
+		//printf("index: %zu\n", index);
 		insert_b(root, index);
-		print_stacks(root);
+		//print_stacks(root);
 	}
-	//printf("test\n");
 	index = get_index(root->b, root->b->max);
-	//printf("%zu\n", index);
 	while (index != 0)
 	{
 		if (index <= root->bsize / 2)
@@ -36,6 +34,7 @@ void 	big_solver(t_ledger *root)
 	}
 	while (root->bsize != 0)
 		put_instruction(root, 3);
+	//print_stacks(root);
 }
 
 void	insert_b(t_ledger *ledger, int index)
@@ -45,9 +44,9 @@ void	insert_b(t_ledger *ledger, int index)
 	int		om;
 
 	tmp = get_nth(ledger->a, index);
-	//printf("test\n");
 	pivot = find_pivot(ledger->b, tmp->data);
 	om = optimal_move(ledger, index, pivot);
+	//printf("Final Strat: %d\n", om);
 	if (om == 0)
 	{
 		strat_one(ledger, index, pivot);
@@ -69,7 +68,7 @@ void 	strat_one(t_ledger *ledger, int index, int pivot)
 
 	i = index;
 	p = pivot;
-	if (i < ledger->asize / 2)
+	if (i <= ledger->asize / 2)
 	{
 		while (i > 0)
 		{
@@ -83,11 +82,11 @@ void 	strat_one(t_ledger *ledger, int index, int pivot)
 		{
 			put_instruction(ledger, 8);
 			i++;
+			if (i == ledger->asize)
+				i = 0;
 		}
-		if (i == ledger->bsize)
-			i = 0;
 	}
-	if (p < ledger->bsize / 2)
+	if (p <= ledger->bsize / 2)
 	{
 		while (p > 0)
 		{
@@ -95,15 +94,15 @@ void 	strat_one(t_ledger *ledger, int index, int pivot)
 			p--;
 		}
 	}
-	else if (p > ledger->asize / 2)
+	else if (p > ledger->bsize / 2)
 	{
 		while (p != 0)
 		{
 			put_instruction(ledger, 9);
 			p++;
+			if (p == ledger->bsize)
+				p = 0;
 		}
-		if (p == ledger->bsize)
-			p = 0;
 	}
 	if (i == 0 && p == 0)
 		put_instruction(ledger, 4);
@@ -207,6 +206,7 @@ void 	put_instruction(t_ledger *root, int i)
 {
 	printf("%s\n", root->instructions[i]);
 	g_stack[i](root);
+	root->i_count++;
 }
 
 int		get_insert(t_ledger *root)
@@ -218,7 +218,6 @@ int		get_insert(t_ledger *root)
 
 	i = 0;
 	lmoves = calculate_score(root, i++);
-	//printf("lmoves: %d\n", lmoves);
 	index = 0;
 	while (i <= root->asize / 2)
 	{
