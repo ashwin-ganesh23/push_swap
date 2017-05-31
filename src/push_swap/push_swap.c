@@ -40,6 +40,24 @@ int		solved(t_ledger *root)
 	return (1);
 }
 
+int		ordered(t_ledger *root)
+{
+	t_node	*tmp;
+
+	if (root->asize > 1)
+	{
+		set_maxmin(root);
+		tmp = root->a->min;
+		while (tmp->next->data != root->a->min->data)
+		{
+			if (tmp->data > tmp->next->data)
+				return (0);
+			tmp = tmp->next;
+		}
+	}
+	return (1);
+}
+
 int		main(int argc, char **argv)
 {
 	t_ledger 	root;

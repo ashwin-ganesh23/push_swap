@@ -25,6 +25,8 @@ typedef struct	s_stack
 	struct s_node 	*head;
 	struct s_node	*tail;
 	struct s_node	*max;
+	struct s_node	*max2;
+	struct s_node	*max3;
 	struct s_node	*min;
 }				t_stack;
 
@@ -32,9 +34,12 @@ typedef	struct	s_ledger
 {
 	struct s_stack	*a;
 	struct s_stack	*b;
+	int				v_flag;
+	int				c_flag;
 	size_t 			asize;
 	size_t			bsize;
 	size_t			i_count;
+	size_t			*scores;
 	char 			**instructions;
 }				t_ledger;
 
@@ -54,6 +59,7 @@ void 	(*g_stack[11])(t_ledger *stk);
 
 void 	print_stacks(t_ledger *root);
 int		solved(t_ledger *root);
+int		ordered(t_ledger *root);
 
 t_node	*new_nodelst(int input);
 int		insert_node(t_node *head, t_stack *master, int input);
@@ -89,6 +95,11 @@ int		small_solver(t_ledger *ledger);
 void 	push_twomin(t_ledger *root);
 void 	sort_in_place(t_ledger *ledger);
 void	insert_sb(t_ledger *ledger, int index);
+
+void 	push_inorder(t_ledger *root);
+void 	push_up_a(t_ledger *root, t_stack *stk, t_node *node);
+void 	push_up_b(t_ledger *root, t_stack *stk, t_node *node);
+
 
 void 	big_solver(t_ledger *root);
 void	insert_b(t_ledger *ledger, int index);

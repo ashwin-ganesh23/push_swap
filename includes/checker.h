@@ -40,6 +40,8 @@ int     valid_int(char *str);
 void	put_error();
 int 	check_duplicates(t_stack *root, int n);
 void 	check_instruction(t_stack *root, char *str);
+int 	check_solution(t_stack *root);
+
 void    parse_args(t_stack *root, int length, char **argv);
 void    parse_arg(t_stack *root, char *arg);
 int		get_length(char **args);;

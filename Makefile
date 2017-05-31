@@ -4,8 +4,16 @@ PUSH = push_swap
 
 GCC_FLAGS = gcc -Wall -Werror -Wextra
 
-SRC_CHECKER = 	./src/checker/checker.c
-SRC_PUSH 	= 	./src/push_swap/push_swap.c
+SRC_CHECKER += 	./src/checker/checker.c
+SRC_CHECKER += 	./src/checker/check.c
+SRC_CHECKER += 	./src/checker/initialize.c
+SRC_CHECKER += 	./src/checker/parse.c
+SRC_CHECKER += 	./src/checker/push.c
+SRC_CHECKER += 	./src/checker/swap.c
+SRC_CHECKER += 	./src/checker/rotate.c
+SRC_CHECKER += 	./src/checker/rev_rotate.c
+
+SRC_PUSH 	+= 	./src/push_swap/push_swap.c
 SRC_PUSH 	+=	./src/push_swap/initialize_ledger.c
 SRC_PUSH 	+=	./src/push_swap/linked_list.c
 SRC_PUSH 	+=	./src/push_swap/merge_sort.c
@@ -20,8 +28,8 @@ SRC_PUSH	+=	./src/push_swap/small_solver.c
 
 LIBFT = -L libft/ -lft
 
-HEADERS = -I ./includes/checker.h -I ./libft
-PHEADERS = -I ./includes/push_swap.h -I ./libft
+HEADERS = -I ./includes -I ./libft
+PHEADERS = -I ./includes -I ./libft
 
 O_FILES = $(SRC:.c=.o)
 

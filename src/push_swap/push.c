@@ -41,17 +41,27 @@ void		pa(t_ledger *stk)
 		}
 		stk->bsize--;
 		stk->asize++;
+		if (stk->a->min != NULL && stk->a->max != NULL)
+		{
+			if (stk->a->min->data > temp->data)
+				stk->a->min = temp;
+			if (stk->a->max->data < temp->data)
+				stk->a->max = temp;
+		}
+		else
+		{
+			stk->a->min = temp;
+			stk->a->max = temp;
+		}
 	}
 }
 
 void		pb(t_ledger *stk)
 {
-	t_node	*tmp;
 	t_node	*temp;
 
 	if (stk->asize > 0)
 	{
-		tmp = stk->b->head;
 		temp = stk->a->head;
 		if (stk->asize > 1)
 		{

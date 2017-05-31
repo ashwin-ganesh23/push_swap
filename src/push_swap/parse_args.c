@@ -1,31 +1,57 @@
 #include "../includes/push_swap.h"
 
+int		check_flags(t_ledger *ledger, char *arg1, char *arg2)
+{
+	if (arg1[0] == '-')
+	{
+		if (arg1[1] == 'v')
+			ledger->v_flag = 1;
+		else if (arg1[1] == 'c')
+			ledger->c_flag = 1;
+	}
+	if (arg2[0] == '-')
+	{
+		if (arg2[1] == 'v')
+			ledger->v_flag = 1;
+		else if (arg2[1] == 'c')
+			ledger->c_flag = 1;
+	}
+	return (ledger->c_flag + ledger->v_flag);
+}
+
 void    parse_pargs(t_ledger *ledger, int argc, char **argv)
 {
+	int		flags;
+
+	flags = 0;
 	if (argc == 2)
 	{
 		parse_arg(ledger, argv[1]);
 		argc--;
 	}
-	while (argc > 1)
+	else
 	{
-		if (!valid_int(argv[--argc]))
-			put_error();
-		if (!check_duplicates(ledger, ft_atoi(argv[argc])))
-			put_error();
-		if (ledger->asize == 0)
+		flags = check_flags(ledger, argv[1], argv[2]);
+		while (argc > 1 + flags)
 		{
-			ledger->a->tail = new_nodelst(ft_atoi(argv[argc]));
-			ledger->a->head = ledger->a->tail;
-		}
-		else
-		{
-			insert_node(ledger->a->head, ledger->a, ft_atoi(argv[argc]));
-		}
-		ledger->asize++;
-    }
-	ledger->a->head->prev = ledger->a->tail;
-	ledger->a->tail->next = ledger->a->head;
+			if (!valid_int(argv[--argc]))
+				put_error();
+			if (!check_duplicates(ledger, ft_atoi(argv[argc])))
+				put_error();
+			if (ledger->asize == 0)
+			{
+				ledger->a->tail = new_nodelst(ft_atoi(argv[argc]));
+				ledger->a->head = ledger->a->tail;
+			}
+			else
+			{
+				insert_node(ledger->a->head, ledger->a, ft_atoi(argv[argc]));
+			}
+			ledger->asize++;
+	    }
+		ledger->a->head->prev = ledger->a->tail;
+		ledger->a->tail->next = ledger->a->head;
+	}
 	set_maxmin(ledger);
 }
 
@@ -34,12 +60,14 @@ void 	parse_arg(t_ledger *ledger, char *arg)
 	char	**args;
 	int		i;
 	int		length;
+	int		flags;
 
 	i = 0;
 	length = 0;
 	args = ft_strsplit(arg, ' ');
 	length = get_length(args);
-	while (i < length)
+	flags = check_flags(ledger, args[0], args[1]);
+	while (i < length - flags)
 	{
 		if (!valid_int(args[length - i - 1]))
 			put_error();
@@ -64,23 +92,40 @@ void 	parse_arg(t_ledger *ledger, char *arg)
 void 	set_maxmin(t_ledger *ledger)
 {
 	int		max;
+	int		max2;
+	int		max3;
 	int		min;
 	t_node	*tmp;
 
 	tmp = ledger->a->head;
 	max = tmp->data;
+	max2 = max;
+	max3 = max;
 	min = tmp->data;
 	tmp = tmp->next;
 	while (tmp->data != ledger->a->head->data)
 	{
 		if (tmp->data > max)
+		{
+			max3 = max2;
+			max2 = max;
 			max = tmp->data;
+		}
+		else if (tmp->data > max2)
+		{
+			max3 = max2;
+			max2 = tmp->data;
+		}
+		else if (tmp->data > max3)
+			max3 = tmp->data;
 		if (tmp->data < min)
 			min = tmp->data;
 		tmp = tmp->next;
 	}
 	ledger->a->max = get_nth(ledger->a, get_dindex(ledger->a, max, ledger->asize));
 	ledger->a->min = get_nth(ledger->a, get_dindex(ledger->a, min, ledger->asize));
+	ledger->a->max2 = get_nth(ledger->a, get_dindex(ledger->a, max2, ledger->asize));
+	ledger->a->max3 = get_nth(ledger->a, get_dindex(ledger->a, max3, ledger->asize));
 }
 
 int 	check_duplicates(t_ledger *root, int n)

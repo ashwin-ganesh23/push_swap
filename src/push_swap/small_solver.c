@@ -4,7 +4,7 @@ int 	small_solver(t_ledger *ledger)
 {
 	if (ledger->asize == 1)
 		return (0);
-	while (ledger->bsize != 2)
+	while (ledger->asize > 3)
 	{
 		push_twomin(ledger);
 	}
@@ -18,47 +18,61 @@ int 	small_solver(t_ledger *ledger)
 void 	sort_in_place(t_ledger *ledger)
 {
 	t_node	*tmp;
-	int		count;
-	int		min;
-	int		low;
+	// int		count;
+	// int		min;
+	// int		low;
 
-	tmp = ledger->a->head;
-	count = 1;
-	min = 0;
-	low = tmp->data;
-	tmp = tmp->next;
-	if (!solved(ledger))
+	set_maxmin(ledger);
+	if (ledger->asize == 2)
 	{
-		while (count < 3)
-		{
-			if (tmp->data < low)
-			{
-				low = tmp->data;
-				min = count;
-			}
-			count++;
-			tmp = tmp->next;
-		}
-		tmp = get_nth(ledger->a, min);
-		if (tmp->next->data > tmp->prev->data)
+		if (ledger->a->head->data > ledger->a->tail->data)
 			put_instruction(ledger, 0);
-		count = get_index(ledger->a, tmp);
-		//printf("count: %d\n", count);
-		if (count == 2)
-		{
+	}
+	else if (ledger->asize == 3)
+	{
+		tmp = ledger->a->max3;
+		if (tmp->next != ledger->a->max2)
+			put_instruction(ledger, 0);
+		if (ledger->a->tail == tmp)
 			put_instruction(ledger, 8);
-		}
-		else if (count == 1)
+		else if (ledger->a->head != tmp)
 			put_instruction(ledger, 5);
 	}
+
+	// count = 0;
+	// min = 0;
+	// low = tmp->data;
+	// tmp = tmp->next;
+	// if (!solved(ledger))
+	// {
+	// 	while (count < 2)
+	// 	{
+	// 		if (tmp->data < low)
+	// 		{
+	// 			low = tmp->data;
+	// 			min = count;
+	// 		}
+	// 		count++;
+	// 		tmp = tmp->next;
+	// 	}
+	// 	tmp = get_nth(ledger->a, min);
+	// 	if (tmp->next->data > tmp->prev->data)
+	// 		put_instruction(ledger, 0);
+	// 	count = get_index(ledger->a, tmp);
+	// 	//printf("count: %d\n", count);
+	// 	if (count == 2)
+	// 	{
+	// 		put_instruction(ledger, 8);
+	// 	}
+	// 	else if (count == 1)
+	// 		put_instruction(ledger, 5);
+	// }
 }
 
 void	insert_sb(t_ledger *ledger, int index)
 {
-	t_node	*tmp;
 	int		pivot;
 
-	tmp = get_nth(ledger->a, index);
 	pivot = 0;
 	strat_one(ledger, index, pivot);
 }

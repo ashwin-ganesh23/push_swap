@@ -46,11 +46,11 @@ t_node	*get_nth(t_stack *stack, int i)
 		tmp = tmp->next;
 		index--;
 	}
-	while (index < 0)
-	{
-		tmp = tmp->prev;
-		index++;
-	}
+	// while (index < 0)
+	// {
+	// 	tmp = tmp->prev;
+	// 	index++;
+	// }
 	return (tmp);
 }
 
